@@ -1,0 +1,24 @@
+version: '3.9'
+services:
+  postgres:
+    image: postgres:14-alpine
+    container_name: rpovzi_postgres
+    hostname: rpovzi_postgres
+    expose:
+      - 5432
+    ports:
+      - 5435:5432
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USERNAME=postgres
+      - POSTGRES_DB=rpovzi
+  backend:
+    image: openjdk:17
+    container_name: rpovzi_backend
+    expose:
+      - 8080
+    ports:
+      - 8080:8080
+    volumes:
+      - ./target/rpovzi-0.1.jar:/opt/app.jar
+    command: java -jar -Ddb.url=jdbc:postgresql://rpovzi_postgres:5432/rpovzi /opt/app.jar

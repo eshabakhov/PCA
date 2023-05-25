@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.4.xsd">
+
+
+    <changeSet id="study/1.0/17-02-2023/1" author="ivan_sych" logicalFilePath="set-1.xml">
+        <sql>
+            <![CDATA[
+            CREATE SCHEMA IF NOT EXISTS phone_calls;
+            ]]>
+        </sql>
+    </changeSet>
+
+    <changeSet id="study/1.0/26-05-2023/2" author="ivan_sych" logicalFilePath="set-1.xml">
+        <sql>
+            <![CDATA[
+            CREATE TABLE phone_calls.call(
+                id bigserial primary key,
+                abonent_id bigint,
+                city_id bigint,
+                datetime timestamp,
+                minutes integer
+            );
+            ]]>
+        </sql>
+    </changeSet>
+
+    <changeSet id="study/1.0/26-05-2023/3" author="ivan_sych" logicalFilePath="set-1.xml">
+        <sql>
+            <![CDATA[
+            CREATE TABLE phone_calls.abonent(
+                id bigserial primary key,
+                phone_number varchar(15),
+                inn varchar(50),
+                address varchar(100)
+            );
+            ]]>
+        </sql>
+    </changeSet>
+
+    <changeSet id="study/1.0/26-05-2023/4" author="ivan_sych" logicalFilePath="set-1.xml">
+        <sql>
+            <![CDATA[
+            CREATE TABLE phone_calls.city(
+                id bigserial primary key,
+                night_rate numeric,
+                day_rate numeric
+            );
+            ]]>
+        </sql>
+    </changeSet>
+
+    <changeSet id="study/1.0/26-05-2023/5" author="ivan_sych" logicalFilePath="set-1.xml">
+        <sql>
+            <![CDATA[
+            CREATE TABLE phone_calls.user(
+                id bigserial primary key ,
+                login varchar(20),
+                password_hash varchar(50),
+                name varchar(20),
+                surname varchar(20),
+                patronimyc varchar(20)
+            );
+            ]]>
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>
