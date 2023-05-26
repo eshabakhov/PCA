@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/Citys")
+@RequestMapping(value = "/cities")
 @AllArgsConstructor
 public class CityController {
 
