@@ -17,8 +17,8 @@ public class AbonentController {
 
     @GetMapping(value = "/list")
     public List<Abonent> getList(
-            @RequestParam(value = "/page") Integer page,
-            @RequestParam(value = "/pageSize") Integer pageSize) {
+            @RequestParam(value = "/page", defaultValue = "1") Integer page,
+            @RequestParam(value = "/pageSize", defaultValue = "10") Integer pageSize) {
         return abonentService.getList(page, pageSize);
     }
 
