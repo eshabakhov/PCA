@@ -1,6 +1,6 @@
 package org.example.repository;
 
-import com.example.rpovzi.tables.pojos.Abonent;
+import org.example.rpovzi.tables.pojos.Abonent;
 import lombok.AllArgsConstructor;
 import org.jooq.Condition;
 import org.jooq.DSLContext;
@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-import static com.example.rpovzi.Tables.ABONENT;
+import static org.example.rpovzi.Tables.ABONENT;
 
 @Repository
 @AllArgsConstructor

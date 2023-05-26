@@ -1,6 +1,6 @@
 package org.example.controller;
 
-import com.example.rpovzi.tables.pojos.Abonent;
+import org.example.rpovzi.tables.pojos.Abonent;
 import lombok.AllArgsConstructor;
 import org.example.service.AbonentService;
 import org.springframework.web.bind.annotation.*;

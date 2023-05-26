@@ -190,7 +190,7 @@
                                             </schemata>
                                         </database>
                                         <target>
-                                            <packageName>com.example.rpovzi</packageName>
+                                            <packageName>org.example.rpovzi</packageName>
                                             <directory>target/generated-sources/jooq</directory>
                                         </target>
                                         <generate>

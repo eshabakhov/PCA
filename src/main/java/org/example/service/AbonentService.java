@@ -1,7 +1,7 @@
 package org.example.service;
 
-import com.example.rpovzi.tables.daos.AbonentDao;
-import com.example.rpovzi.tables.pojos.Abonent;
+import org.example.rpovzi.tables.daos.AbonentDao;
+import org.example.rpovzi.tables.pojos.Abonent;
 import lombok.AllArgsConstructor;
 import org.example.repository.AbonentRepository;
 import org.jooq.Condition;
