@@ -19,4 +19,4 @@ docker-compose up
 ```
 
 ## Спецификация АПИ
-http://localhost:8080/aupo/api/swagger-ui/index.html после запуска приложения
+http://localhost:8080/api/swagger-ui/index.html после запуска приложения
