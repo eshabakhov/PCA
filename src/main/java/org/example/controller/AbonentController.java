@@ -3,9 +3,16 @@ package org.example.controller;
 import org.example.rpovzi.tables.pojos.Abonent;
 import lombok.AllArgsConstructor;
 import org.example.service.AbonentService;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.security.RolesAllowed;
 import java.util.List;
+
+import static org.springframework.security.authorization.AuthorityReactiveAuthorizationManager.hasRole;
+
 
 @RestController
 @RequestMapping(value = "/abonents")

@@ -8,7 +8,8 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-import static org.postgresql.jdbc.EscapedFunctions.USER;
+import static org.example.rpovzi.Tables.USER;
+
 
 @Repository
 @AllArgsConstructor
@@ -23,5 +24,12 @@ public class UserRepository {
                 .limit(pageSize)
                 .offset((page - 1) * pageSize)
                 .fetchInto(User.class);
+    }
+
+    public User fetchActual(String login) {
+        return dslContext
+                .selectFrom(USER)
+                .where(USER.LOGIN.eq(login))
+                .fetchOneInto(User.class);
     }
 }

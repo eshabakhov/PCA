@@ -5,6 +5,7 @@ import org.example.repository.UserRepository;
 import org.example.rpovzi.tables.daos.UserDao;
 import org.example.rpovzi.tables.pojos.User;
 import org.jooq.Condition;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,6 +20,8 @@ public class UserService {
 
     private final UserDao UserDao;
 
+    private final PasswordEncoder passwordEncoder;
+
     public List<User> getList(Integer page, Integer pageSize) {
 
         Condition condition = trueCondition();
@@ -27,6 +30,7 @@ public class UserService {
     }
 
     public User create(User user){
+        user.setPasswordHash(passwordEncoder.encode(user.getPasswordHash()));
         UserDao.insert(user);
         return user;
     }
