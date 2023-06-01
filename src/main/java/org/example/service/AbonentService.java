@@ -40,4 +40,7 @@ public class AbonentService {
         abonentDao.deleteById(id);
     }
 
+    public Abonent get(Long id) {
+        return abonentDao.findById(id);
+    }
 }

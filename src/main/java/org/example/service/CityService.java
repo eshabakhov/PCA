@@ -3,6 +3,7 @@ package org.example.service;
 import lombok.AllArgsConstructor;
 import org.example.repository.CityRepository;
 import org.example.rpovzi.tables.daos.CityDao;
+import org.example.rpovzi.tables.pojos.Call;
 import org.example.rpovzi.tables.pojos.City;
 import org.jooq.Condition;
 import org.springframework.stereotype.Service;
@@ -38,6 +39,10 @@ public class CityService {
 
     public void delete(Long id){
         CityDao.deleteById(id);
+    }
+
+    public City get(Long id) {
+        return CityDao.findById(id);
     }
 
 }

@@ -22,6 +22,12 @@ public class AbonentController {
         return abonentService.getList(page, pageSize);
     }
 
+    @GetMapping(value = "/{id}")
+    public Abonent get(
+            @PathVariable Long id) {
+        return abonentService.get(id);
+    }
+
     @PostMapping
     public Abonent create(@RequestBody Abonent abonent) {
         return abonentService.create(abonent);

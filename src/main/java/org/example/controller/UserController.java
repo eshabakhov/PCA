@@ -1,46 +1,45 @@
 package org.example.controller;
 
 import lombok.AllArgsConstructor;
-import org.example.rpovzi.tables.pojos.Call;
-import org.example.rpovzi.tables.pojos.City;
-import org.example.service.CityService;
+import org.example.rpovzi.tables.pojos.User;
+import org.example.service.UserService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/cities")
+@RequestMapping(value = "/users")
 @AllArgsConstructor
-public class CityController {
+public class UserController {
 
-    private final CityService CityService;
+    private final UserService userService;
 
 
     @GetMapping(value = "/list")
-    public List<City> getList(
+    public List<User> getList(
             @RequestParam(value = "/page", defaultValue = "1") Integer page,
             @RequestParam(value = "/pageSize", defaultValue = "10") Integer pageSize) {
-        return CityService.getList(page, pageSize);
+        return userService.getList(page, pageSize);
     }
 
     @GetMapping(value = "/{id}")
-    public City get(
+    public User get(
             @PathVariable Long id) {
-        return CityService.get(id);
+        return userService.get(id);
     }
 
     @PostMapping
-    public City create(@RequestBody City City) {
-        return CityService.create(City);
+    public User create(@RequestBody User user) {
+        return userService.create(user);
     }
 
     @PutMapping
-    public City update(@RequestBody City City) {
-        return CityService.update(City);
+    public User update(@RequestBody User user) {
+        return userService.update(user);
     }
 
     @DeleteMapping(value = "/{id}")
     public void create(@PathVariable Long id) {
-        CityService.delete(id);
+        userService.delete(id);
     }
 }
