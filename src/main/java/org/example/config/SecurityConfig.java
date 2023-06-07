@@ -2,7 +2,9 @@ package org.example.config;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.example.repository.UserRepository;
+import org.example.rpovzi.tables.pojos.Audit;
 import org.example.rpovzi.tables.pojos.User;
+import org.example.service.AuditService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -28,6 +30,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private AuditService auditService;
 
     @Autowired
     private DataSource dataSource;
@@ -88,13 +93,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .failureHandler((request, response, authentication) -> {
                     response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                     String username = request.getParameter("username");
-                    if(userAttemptsMap.containsKey(username)){
-                        int attempts = userAttemptsMap.get(username).getLeft();
-                        userAttemptsMap.put(username, Pair.of(attempts + 1, LocalDateTime.now()));
-                    } else {
-                        userAttemptsMap.put(username, Pair.of(1, LocalDateTime.now()));
-                    }
-
+                    registerAttempt(username);
                 })
 
                 .successHandler((request, response, authentication) -> {
@@ -125,6 +124,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "where login=?")
                 .authoritiesByUsernameQuery("select login, case when is_admin is true then 'ROLE_ADMIN' else 'ROLE_USER' end from phone_calls.user " +
                         "where login=?");
+    }
+
+    private void registerAttempt(String username){
+        auditService.create(new Audit(null, username, "/login", "POST", LocalDateTime.now()));
+        if(userAttemptsMap.containsKey(username)){
+            int attempts = userAttemptsMap.get(username).getLeft();
+            userAttemptsMap.put(username, Pair.of(attempts + 1, LocalDateTime.now()));
+        } else {
+            userAttemptsMap.put(username, Pair.of(1, LocalDateTime.now()));
+        }
     }
 
 }
