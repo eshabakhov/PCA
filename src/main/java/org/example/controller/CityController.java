@@ -52,7 +52,7 @@ public class CityController {
 
     @DeleteMapping(value = "/{id}")
     public void create(Principal principal, @PathVariable Long id) {
-        auditService.create(new Audit(null, principal.getName(), "/cities/", "DELETE", LocalDateTime.now()));
+        auditService.create(new Audit(null, principal.getName(), "/cities/{id}", "DELETE", LocalDateTime.now()));
         CityService.delete(id);
     }
 }

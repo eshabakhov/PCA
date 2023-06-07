@@ -51,7 +51,7 @@ public class CallController {
 
     @DeleteMapping(value = "/{id}")
     public void create(Principal principal, @PathVariable Long id) {
-        auditService.create(new Audit(null, principal.getName(), "/calls/", "DELETE", LocalDateTime.now()));
+        auditService.create(new Audit(null, principal.getName(), "/calls/{id}", "DELETE", LocalDateTime.now()));
         callService.delete(id);
     }
 }
