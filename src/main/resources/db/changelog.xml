@@ -91,4 +91,19 @@
         </sql>
     </changeSet>
 
+    <changeSet id="20230607-01" author="murzin" logicalFilePath="set-1.xml">
+        <sql>
+            <![CDATA[
+            CREATE TABLE phone_calls.audit
+            (
+                id       bigserial primary key,
+                username varchar(64),
+                endpoint varchar(256),
+                method   varchar(8),
+                datetime timestamp
+            );
+            ]]>
+        </sql>
+    </changeSet>
+
 </databaseChangeLog>
