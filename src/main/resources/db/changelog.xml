@@ -106,4 +106,21 @@
         </sql>
     </changeSet>
 
+    <changeSet id="study/1.0/02-06-2023/1" author="ivan_sych" logicalFilePath="set-1.xml">
+        <sql>
+            <![CDATA[
+            ALTER TABLE phone_calls.city ADD COLUMN name varchar;
+            ]]>
+        </sql>
+    </changeSet>
+
+    <changeSet id="study/1.0/07-06-2023/1" author="ivan_sych" logicalFilePath="set-1.xml">
+        <sql>
+            <![CDATA[
+            ALTER TABLE phone_calls.user ADD COLUMN attempts int;
+            ALTER TABLE phone_calls.user ADD COLUMN last_attempts timestamp;
+            ]]>
+        </sql>
+    </changeSet>
+
 </databaseChangeLog>

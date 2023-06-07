@@ -1,8 +1,10 @@
 package org.example.config;
 
+import org.apache.commons.lang3.tuple.Pair;
 import org.example.repository.UserRepository;
 import org.example.rpovzi.tables.pojos.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -16,6 +18,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
 @EnableWebSecurity
 @Configuration
@@ -37,6 +42,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // Разрешаем читать доки без авторизации
         web.ignoring().antMatchers("/swagger-ui/**", "/api-docs/**", "/actuator/**");
     }
+
+    private Map<String, Pair<Integer, LocalDateTime>> userAttemptsMap = new HashMap<>();
+
+    @Value("${auth.attempts.reset.hours}")
+    private Integer attemptFailuresResetHours;
+
+    @Value("${auth.attempts.number}")
+    private Integer attemptsNumber;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -74,6 +87,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .failureHandler((request, response, authentication) -> {
                     response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                    String username = request.getParameter("username");
+                    if(userAttemptsMap.containsKey(username)){
+                        int attempts = userAttemptsMap.get(username).getLeft();
+                        userAttemptsMap.put(username, Pair.of(attempts + 1, LocalDateTime.now()));
+                    } else {
+                        userAttemptsMap.put(username, Pair.of(1, LocalDateTime.now()));
+                    }
+
                 })
 
                 .successHandler((request, response, authentication) -> {
