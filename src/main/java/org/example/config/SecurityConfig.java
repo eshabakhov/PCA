@@ -67,7 +67,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .logout()
                 .logoutUrl("/logout")
-                .logoutSuccessHandler((request, response, authentication) -> response.setStatus(HttpServletResponse.SC_OK))
                 .invalidateHttpSession(true)
                 .deleteCookies("JSESSIONID")
                 .and()
@@ -112,6 +111,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .successHandler((request, response, authentication) -> {
                     String login = authentication.getName();
+                    auditService.create(new Audit(null, login, "/login", "POST", LocalDateTime.now()));
                     User user = userRepository.fetchActual(login);
 
                     userAttempts.getUserAttemptsMap().remove(login);
@@ -126,8 +126,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
 
                 .logout()
-
                 .logoutSuccessHandler((request, response, authentication) -> {
+                    auditService.create(new Audit(null, authentication.getName(), "/logout", "POST", LocalDateTime.now()));
                     response.setStatus(HttpServletResponse.SC_OK);
                 });
     }
@@ -143,8 +143,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "where login=?");
     }
 
-    private void registerAttempt(String username){
+    private void registerAttempt(String username) {
         auditService.create(new Audit(null, username, "/login", "POST", LocalDateTime.now()));
+        if (userAttemptsMap.containsKey(username)) {
+            int attempts = userAttemptsMap.get(username).getLeft();
+            userAttemptsMap.put(username, Pair.of(attempts + 1, LocalDateTime.now()));
         if(userAttempts.getUserAttemptsMap().containsKey(username)){
             int attempts = userAttempts.getUserAttemptsMap().get(username);
             if(attempts > attemptsNumber - 1){
