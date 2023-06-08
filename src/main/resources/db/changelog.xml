@@ -123,4 +123,15 @@
         </sql>
     </changeSet>
 
+    <changeSet id="study/1.0/08-06-2023/1" author="ivan_sych" logicalFilePath="set-1.xml">
+        <sql>
+            <![CDATA[
+            ALTER TABLE phone_calls.user DROP COLUMN attempts;
+            ALTER TABLE phone_calls.user DROP COLUMN last_attempts;
+            ALTER TABLE phone_calls.user ADD COLUMN is_locked boolean;
+            ALTER TABLE phone_calls.user ADD COLUMN datetime_of_lock timestamp;
+            ]]>
+        </sql>
+    </changeSet>
+
 </databaseChangeLog>
