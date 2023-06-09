@@ -2,13 +2,11 @@ package org.example.controller;
 
 import lombok.AllArgsConstructor;
 import org.example.rpovzi.tables.pojos.Abonent;
-import org.example.rpovzi.tables.pojos.Audit;
 import org.example.service.AbonentService;
 import org.example.service.AuditService;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -26,7 +24,7 @@ public class AbonentController {
             Principal principal,
             @RequestParam(value = "/page", defaultValue = "1") Integer page,
             @RequestParam(value = "/pageSize", defaultValue = "10") Integer pageSize) {
-        auditService.create(new Audit(null, principal.getName(), "/abonents/list", "GET", LocalDateTime.now()));
+        auditService.audit(principal, "/abonents/list", "GET");
         return abonentService.getList(page, pageSize);
     }
 
@@ -34,25 +32,25 @@ public class AbonentController {
     public Abonent get(
             Principal principal,
             @PathVariable Long id) {
-        auditService.create(new Audit(null, principal.getName(), "/abonents/{id}", "GET", LocalDateTime.now()));
+        auditService.audit(principal, "/abonents/{id}", "GET");
         return abonentService.get(id);
     }
 
     @PostMapping
     public Abonent create(Principal principal, @RequestBody Abonent abonent) {
-        auditService.create(new Audit(null, principal.getName(), "/abonents/", "POST", LocalDateTime.now()));
+        auditService.audit(principal, "/abonents/", "POST");
         return abonentService.create(abonent);
     }
 
     @PutMapping
     public Abonent update(Principal principal, @RequestBody Abonent abonent) {
-        auditService.create(new Audit(null, principal.getName(), "/abonents/", "PUT", LocalDateTime.now()));
+        auditService.audit(principal, "/abonents/", "PUT");
         return abonentService.update(abonent);
     }
 
     @DeleteMapping(value = "/{id}")
     public void create(Principal principal, @PathVariable Long id) {
-        auditService.create(new Audit(null, principal.getName(), "/abonents/{id}", "DELETE", LocalDateTime.now()));
+        auditService.audit(principal, "/abonents/{id}", "DELETE");
         abonentService.delete(id);
     }
 }

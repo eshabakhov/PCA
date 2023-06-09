@@ -29,23 +29,27 @@ public class UserService {
         return userRepository.fetch(condition, page, pageSize);
     }
 
-    public User create(User user){
+    public User create(User user) {
         user.setPasswordHash(passwordEncoder.encode(user.getPasswordHash()));
         userDao.insert(user);
         return user;
     }
 
-    public User update(User user){
+    public User update(User user) {
         userDao.update(user);
         return user;
     }
 
-    public void delete(Long id){
+    public void delete(Long id) {
         userDao.deleteById(id);
     }
 
     public User get(Long id) {
         return userDao.findById(id);
+    }
+
+    public User getByUsername(String username) {
+        return userDao.fetchByLogin(username).stream().findFirst().orElse(null);
     }
 
 }

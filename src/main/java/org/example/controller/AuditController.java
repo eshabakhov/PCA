@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.security.Principal;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -24,7 +23,7 @@ public class AuditController {
             Principal principal,
             @RequestParam(value = "/page", defaultValue = "1") Integer page,
             @RequestParam(value = "/pageSize", defaultValue = "10") Integer pageSize) {
-        auditService.create(new Audit(null, principal.getName(), "/audit/list", "GET", LocalDateTime.now()));
+        auditService.audit(principal, "/abonents/list", "GET");
         return auditService.getList(page, pageSize);
     }
 }

@@ -1,14 +1,12 @@
 package org.example.controller;
 
 import lombok.AllArgsConstructor;
-import org.example.rpovzi.tables.pojos.Audit;
 import org.example.rpovzi.tables.pojos.User;
 import org.example.service.AuditService;
 import org.example.service.UserService;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -26,7 +24,7 @@ public class UserController {
             Principal principal,
             @RequestParam(value = "/page", defaultValue = "1") Integer page,
             @RequestParam(value = "/pageSize", defaultValue = "10") Integer pageSize) {
-        auditService.create(new Audit(null, principal.getName(), "/users/list", "GET", LocalDateTime.now()));
+        auditService.audit(principal, "/users/list", "GET");
         return userService.getList(page, pageSize);
     }
 
@@ -34,25 +32,25 @@ public class UserController {
     public User get(
             Principal principal,
             @PathVariable Long id) {
-        auditService.create(new Audit(null, principal.getName(), "/users/{id}", "GET", LocalDateTime.now()));
+        auditService.audit(principal, "/users/{id}", "GET");
         return userService.get(id);
     }
 
     @PostMapping
     public User create(Principal principal, @RequestBody User user) {
-        auditService.create(new Audit(null, principal.getName(), "/users/", "POST", LocalDateTime.now()));
+        auditService.audit(principal, "/users/", "POST");
         return userService.create(user);
     }
 
     @PutMapping
     public User update(Principal principal, @RequestBody User user) {
-        auditService.create(new Audit(null, principal.getName(), "/users/", "PUT", LocalDateTime.now()));
+        auditService.audit(principal, "/users/", "PUT");
         return userService.update(user);
     }
 
     @DeleteMapping(value = "/{id}")
     public void create(Principal principal, @PathVariable Long id) {
-        auditService.create(new Audit(null, principal.getName(), "/users/{id}", "DELETE", LocalDateTime.now()));
+        auditService.audit(principal, "/users/{id}", "DELETE");
         userService.delete(id);
     }
 }

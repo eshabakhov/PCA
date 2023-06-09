@@ -1,14 +1,12 @@
 package org.example.controller;
 
 import lombok.AllArgsConstructor;
-import org.example.rpovzi.tables.pojos.Audit;
 import org.example.rpovzi.tables.pojos.Call;
 import org.example.service.AuditService;
 import org.example.service.CallService;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -25,7 +23,7 @@ public class CallController {
             Principal principal,
             @RequestParam(value = "/page", defaultValue = "1") Integer page,
             @RequestParam(value = "/pageSize", defaultValue = "10") Integer pageSize) {
-        auditService.create(new Audit(null, principal.getName(), "/calls/list", "GET", LocalDateTime.now()));
+        auditService.audit(principal, "/calls/list", "GET");
         return callService.getList(page, pageSize);
     }
 
@@ -33,25 +31,25 @@ public class CallController {
     public Call get(
             Principal principal,
             @PathVariable Long id) {
-        auditService.create(new Audit(null, principal.getName(), "/calls/{id}", "GET", LocalDateTime.now()));
+        auditService.audit(principal, "/calls/{id}", "GET");
         return callService.get(id);
     }
 
     @PostMapping
     public Call create(Principal principal, @RequestBody Call call) {
-        auditService.create(new Audit(null, principal.getName(), "/calls/", "POST", LocalDateTime.now()));
+        auditService.audit(principal, "/calls/", "POST");
         return callService.create(call);
     }
 
     @PutMapping
     public Call update(Principal principal, @RequestBody Call call) {
-        auditService.create(new Audit(null, principal.getName(), "/calls/", "PUT", LocalDateTime.now()));
+        auditService.audit(principal, "/calls/", "PUT");
         return callService.update(call);
     }
 
     @DeleteMapping(value = "/{id}")
     public void create(Principal principal, @PathVariable Long id) {
-        auditService.create(new Audit(null, principal.getName(), "/calls/{id}", "DELETE", LocalDateTime.now()));
+        auditService.audit(principal, "/calls/{id}", "DELETE");
         callService.delete(id);
     }
 }
