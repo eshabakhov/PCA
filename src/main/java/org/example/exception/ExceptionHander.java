@@ -24,6 +24,8 @@ public class ExceptionHander extends ResponseEntityExceptionHandler {
             stackTrace.append("\n").append(stackTraceElement.toString());
         }
 
+        e.printStackTrace();
+
         String responseMessage = "Произошла ошибка на сервере";
 
         return handleExceptionInternal(
