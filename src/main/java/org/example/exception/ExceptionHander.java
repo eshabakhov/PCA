@@ -19,11 +19,7 @@ public class ExceptionHander extends ResponseEntityExceptionHandler {
             final Exception e,
             final WebRequest request
     ) {
-        StringBuilder stackTrace = new StringBuilder("Error: " + e.getMessage());
-        for (StackTraceElement stackTraceElement : e.getStackTrace()) {
-            stackTrace.append("\n").append(stackTraceElement.toString());
-        }
-
+        
         e.printStackTrace();
 
         String responseMessage = "Произошла ошибка на сервере";
