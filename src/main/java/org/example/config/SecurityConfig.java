@@ -103,9 +103,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     if (authentication.getClass().isAssignableFrom(DisabledException.class)) {
                         message = String.format("Учётная запись заблокирована после %d неудачных попыток.", attemptsNumber);
                     }
-
                     String json = String.format("{\"message\": \"%s\"}", message);
 
+                    response.setContentType("application/json");
                     response.getWriter().println(json);
                     registerAttempt(username);
                 })
@@ -148,7 +148,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         auditService.create(new Audit(null, username, "/login", "POST", LocalDateTime.now()));
         if (userAttempts.getUserAttemptsMap().containsKey(username)) {
             int attempts = userAttempts.getUserAttemptsMap().get(username);
-            if (attempts > attemptsNumber - 1) {
+            if(attempts > attemptsNumber - 2){
                 userRepository.setLock(username, LocalDateTime.now());
             }
             userAttempts.getUserAttemptsMap().put(username, attempts + 1);

@@ -6,6 +6,7 @@ import org.example.service.AuditService;
 import org.example.service.UserService;
 import org.springframework.web.bind.annotation.*;
 
+import javax.xml.bind.ValidationException;
 import java.security.Principal;
 import java.util.List;
 
@@ -37,7 +38,7 @@ public class UserController {
     }
 
     @PostMapping
-    public User create(Principal principal, @RequestBody User user) {
+    public User create(Principal principal, @RequestBody User user) throws ValidationException {
         auditService.audit(principal, "/users/", "POST");
         return userService.create(user);
     }
