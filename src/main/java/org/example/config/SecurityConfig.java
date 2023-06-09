@@ -145,9 +145,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private void registerAttempt(String username) {
         auditService.create(new Audit(null, username, "/login", "POST", LocalDateTime.now()));
-        if (userAttemptsMap.containsKey(username)) {
-            int attempts = userAttemptsMap.get(username).getLeft();
-            userAttemptsMap.put(username, Pair.of(attempts + 1, LocalDateTime.now()));
         if(userAttempts.getUserAttemptsMap().containsKey(username)){
             int attempts = userAttempts.getUserAttemptsMap().get(username);
             if(attempts > attemptsNumber - 1){
