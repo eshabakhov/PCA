@@ -11,7 +11,7 @@ public class JobService {
 
     private final UserRepository userRepository;
 
-    @Scheduled(fixedDelay = 3 * 60 *1000)
+    @Scheduled(fixedDelay = 1 * 60 *1000)
     public void resetLocks(){
         userRepository.resetLocks();
     }

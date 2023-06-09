@@ -45,7 +45,7 @@ public class UserRepository {
                 .update(USER)
                 .set(USER.IS_LOCKED, false)
                 .setNull(USER.DATETIME_OF_LOCK)
-                .where(USER.DATETIME_OF_LOCK.lessOrEqual(LocalDateTime.now().minusMinutes(30)))
+                .where(USER.DATETIME_OF_LOCK.lessOrEqual(LocalDateTime.now().minusMinutes(5)))
                 .execute();
     }
 
