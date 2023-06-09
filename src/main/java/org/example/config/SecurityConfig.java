@@ -75,15 +75,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // Разрешаем изменение данных только админам
                 .antMatchers(HttpMethod.POST, "/abonents").hasRole("ADMIN")
                 .antMatchers(HttpMethod.PUT, "/abonents").hasRole("ADMIN")
-                .antMatchers(HttpMethod.DELETE, "/abonents").hasRole("ADMIN")
+                .antMatchers(HttpMethod.DELETE, "/abonents/*").hasRole("ADMIN")
 
                 .antMatchers(HttpMethod.POST, "/calls").hasRole("ADMIN")
                 .antMatchers(HttpMethod.PUT, "/calls").hasRole("ADMIN")
-                .antMatchers(HttpMethod.DELETE, "/calls").hasRole("ADMIN")
+                .antMatchers(HttpMethod.DELETE, "/calls/*").hasRole("ADMIN")
 
                 .antMatchers(HttpMethod.POST, "/cities").hasRole("ADMIN")
                 .antMatchers(HttpMethod.PUT, "/cities").hasRole("ADMIN")
-                .antMatchers(HttpMethod.DELETE, "/cities").hasRole("ADMIN")
+                .antMatchers(HttpMethod.DELETE, "/cities/*").hasRole("ADMIN")
 
                 .antMatchers(HttpMethod.GET, "/audit/*").hasRole("ADMIN")
 
