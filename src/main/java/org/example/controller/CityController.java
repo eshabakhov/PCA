@@ -16,7 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 public class CityController {
 
-    private final CityService CityService;
+    private final CityService cityService;
 
     private final AuditService auditService;
 
@@ -27,7 +27,7 @@ public class CityController {
             @RequestParam(value = "/page", defaultValue = "1") Integer page,
             @RequestParam(value = "/pageSize", defaultValue = "10") Integer pageSize) {
         auditService.create(new Audit(null, principal.getName(), "/cities/list", "GET", LocalDateTime.now()));
-        return CityService.getList(page, pageSize);
+        return cityService.getList(page, pageSize);
     }
 
     @GetMapping(value = "/{id}")
@@ -35,24 +35,24 @@ public class CityController {
             Principal principal,
             @PathVariable Long id) {
         auditService.create(new Audit(null, principal.getName(), "/cities/{id}}", "GET", LocalDateTime.now()));
-        return CityService.get(id);
+        return cityService.get(id);
     }
 
     @PostMapping
     public City create(Principal principal, @RequestBody City City) {
         auditService.create(new Audit(null, principal.getName(), "/cities/", "POST", LocalDateTime.now()));
-        return CityService.create(City);
+        return cityService.create(City);
     }
 
     @PutMapping
     public City update(Principal principal, @RequestBody City City) {
         auditService.create(new Audit(null, principal.getName(), "/cities/", "PUT", LocalDateTime.now()));
-        return CityService.update(City);
+        return cityService.update(City);
     }
 
     @DeleteMapping(value = "/{id}")
     public void create(Principal principal, @PathVariable Long id) {
         auditService.create(new Audit(null, principal.getName(), "/cities/{id}", "DELETE", LocalDateTime.now()));
-        CityService.delete(id);
+        cityService.delete(id);
     }
 }

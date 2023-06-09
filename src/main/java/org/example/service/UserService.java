@@ -16,9 +16,9 @@ import static org.jooq.impl.DSL.trueCondition;
 @AllArgsConstructor
 public class UserService {
 
-    private final UserRepository UserRepository;
+    private final UserRepository userRepository;
 
-    private final UserDao UserDao;
+    private final UserDao userDao;
 
     private final PasswordEncoder passwordEncoder;
 
@@ -26,26 +26,26 @@ public class UserService {
 
         Condition condition = trueCondition();
 
-        return UserRepository.fetch(condition, page, pageSize);
+        return userRepository.fetch(condition, page, pageSize);
     }
 
     public User create(User user){
         user.setPasswordHash(passwordEncoder.encode(user.getPasswordHash()));
-        UserDao.insert(user);
+        userDao.insert(user);
         return user;
     }
 
     public User update(User user){
-        UserDao.update(user);
+        userDao.update(user);
         return user;
     }
 
     public void delete(Long id){
-        UserDao.deleteById(id);
+        userDao.deleteById(id);
     }
 
     public User get(Long id) {
-        return UserDao.findById(id);
+        return userDao.findById(id);
     }
 
 }
