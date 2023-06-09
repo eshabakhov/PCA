@@ -87,7 +87,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .antMatchers(HttpMethod.GET, "/audit/*").hasRole("ADMIN")
 
-                .antMatchers("/user").hasRole("ADMIN")
+                .antMatchers("/users/*").hasRole("ADMIN")
                 .anyRequest().authenticated()
                 .and()
 
