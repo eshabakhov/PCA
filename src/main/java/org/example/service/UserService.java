@@ -8,6 +8,7 @@ import org.jooq.Condition;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.xml.bind.ValidationException;
 import java.util.List;
 
 import static org.jooq.impl.DSL.trueCondition;
@@ -29,8 +30,11 @@ public class UserService {
         return UserRepository.fetch(condition, page, pageSize);
     }
 
-    public User create(User user){
+    public User create(User user) throws ValidationException {
         user.setPasswordHash(passwordEncoder.encode(user.getPasswordHash()));
+        if (!user.getPasswordHash().matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{6,}$")){
+            throw new ValidationException("Пароль слишком простой.");
+        }
         UserDao.insert(user);
         return user;
     }
