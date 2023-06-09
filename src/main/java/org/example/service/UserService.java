@@ -1,6 +1,7 @@
 package org.example.service;
 
 import lombok.AllArgsConstructor;
+import org.example.exception.ValidationException;
 import org.example.repository.UserRepository;
 import org.example.rpovzi.tables.daos.UserDao;
 import org.example.rpovzi.tables.pojos.User;
@@ -8,7 +9,6 @@ import org.jooq.Condition;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.xml.bind.ValidationException;
 import java.util.List;
 
 import static org.jooq.impl.DSL.trueCondition;
