@@ -31,10 +31,10 @@ public class UserService {
     }
 
     public User create(User user) throws ValidationException {
-        user.setPasswordHash(passwordEncoder.encode(user.getPasswordHash()));
         if (!user.getPasswordHash().matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{6,}$")){
             throw new ValidationException("Пароль слишком простой.");
         }
+        user.setPasswordHash(passwordEncoder.encode(user.getPasswordHash()));
         UserDao.insert(user);
         return user;
     }

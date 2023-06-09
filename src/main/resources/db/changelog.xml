@@ -156,4 +156,13 @@
         </sql>
     </changeSet>
 
+    <changeSet id="study/1.0/08-06-2023/4" author="ivan_sych" logicalFilePath="set-1.xml">
+        <sql>
+            <![CDATA[
+            ALTER TABLE phone_calls.city ADD COLUMN discount_call_minutes int;
+            ALTER TABLE phone_calls.user DROP COLUMN discount_call_minutes ;
+            ]]>
+        </sql>
+    </changeSet>
+
 </databaseChangeLog>
