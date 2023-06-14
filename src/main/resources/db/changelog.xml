@@ -165,4 +165,12 @@
         </sql>
     </changeSet>
 
+    <changeSet id="study/1.0/14-06-2023/1" author="ivan_sych" logicalFilePath="set-1.xml">
+        <sql>
+            <![CDATA[
+            ALTER TABLE phone_calls.abonent ADD COLUMN name varchar;
+            ]]>
+        </sql>
+    </changeSet>
+
 </databaseChangeLog>

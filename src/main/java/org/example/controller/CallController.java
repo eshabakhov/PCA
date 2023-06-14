@@ -1,6 +1,7 @@
 package org.example.controller;
 
 import lombok.AllArgsConstructor;
+import org.example.dto.CallDto;
 import org.example.rpovzi.tables.pojos.Call;
 import org.example.service.AuditService;
 import org.example.service.CallService;
@@ -19,7 +20,7 @@ public class CallController {
     private final AuditService auditService;
 
     @GetMapping(value = "/list")
-    public List<Call> getList(
+    public List<CallDto> getList(
             Principal principal,
             @RequestParam(value = "/page", defaultValue = "1") Integer page,
             @RequestParam(value = "/pageSize", defaultValue = "10") Integer pageSize) {
