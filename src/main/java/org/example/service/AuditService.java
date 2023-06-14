@@ -37,9 +37,11 @@ public class AuditService {
     }
 
     public void audit(Principal principal, String endpoint, String method) {
-        User user = userService.getByUsername(principal.getName());
-        if (decideAudit(user, method)) {
-            create(new Audit(null, principal.getName(), endpoint, method, LocalDateTime.now()));
+        if (Objects.nonNull(principal)) {
+            User user = userService.getByUsername(principal.getName());
+            if (decideAudit(user, method)) {
+                create(new Audit(null, principal.getName(), endpoint, method, LocalDateTime.now()));
+            }
         }
 
     }
