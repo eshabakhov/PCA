@@ -1,11 +1,14 @@
 package org.example.controller;
 
 import lombok.AllArgsConstructor;
-import org.example.rpovzi.tables.pojos.Call;
+import org.example.rpovzi.tables.pojos.Audit;
 import org.example.rpovzi.tables.pojos.City;
+import org.example.service.AuditService;
 import org.example.service.CityService;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -13,34 +16,43 @@ import java.util.List;
 @AllArgsConstructor
 public class CityController {
 
-    private final CityService CityService;
+    private final CityService cityService;
+
+    private final AuditService auditService;
 
 
     @GetMapping(value = "/list")
     public List<City> getList(
+            Principal principal,
             @RequestParam(value = "/page", defaultValue = "1") Integer page,
             @RequestParam(value = "/pageSize", defaultValue = "10") Integer pageSize) {
-        return CityService.getList(page, pageSize);
+        auditService.audit(principal, "/cities/list", "GET");
+        return cityService.getList(page, pageSize);
     }
 
     @GetMapping(value = "/{id}")
     public City get(
+            Principal principal,
             @PathVariable Long id) {
-        return CityService.get(id);
+        auditService.audit(principal, "/cities/{id}", "GET");
+        return cityService.get(id);
     }
 
     @PostMapping
-    public City create(@RequestBody City City) {
-        return CityService.create(City);
+    public City create(Principal principal, @RequestBody City City) {
+        auditService.audit(principal, "/cities/", "POST");
+        return cityService.create(City);
     }
 
     @PutMapping
-    public City update(@RequestBody City City) {
-        return CityService.update(City);
+    public City update(Principal principal, @RequestBody City City) {
+        auditService.audit(principal, "/cities/", "PUT");
+        return cityService.update(City);
     }
 
     @DeleteMapping(value = "/{id}")
-    public void create(@PathVariable Long id) {
-        CityService.delete(id);
+    public void create(Principal principal, @PathVariable Long id) {
+        auditService.audit(principal, "/cities/{id}", "DELETE");
+        cityService.delete(id);
     }
 }
