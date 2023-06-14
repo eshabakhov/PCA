@@ -19,8 +19,8 @@ import static org.example.rpovzi.Tables.USER;
 @RequiredArgsConstructor
 public class UserRepository {
 
-    @Value("${auth.attempts.reset.hours}")
-    private Integer attemptFailuresResetHours;
+    @Value("${auth.attempts.reset.minutes}")
+    private Integer attemptsResetMinutes;
 
     private final DSLContext dslContext;
 
@@ -45,7 +45,7 @@ public class UserRepository {
                 .update(USER)
                 .set(USER.IS_LOCKED, false)
                 .setNull(USER.DATETIME_OF_LOCK)
-                .where(USER.DATETIME_OF_LOCK.lessOrEqual(LocalDateTime.now().minusMinutes(5)))
+                .where(USER.DATETIME_OF_LOCK.lessOrEqual(LocalDateTime.now().minusMinutes(attemptsResetMinutes)))
                 .execute();
     }
 
