@@ -6,7 +6,7 @@ import org.example.repository.UserRepository;
 import org.example.rpovzi.tables.daos.UserDao;
 import org.example.rpovzi.tables.pojos.User;
 import org.jooq.Condition;
-//import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,7 +21,7 @@ public class UserService {
 
     private final UserDao userDao;
 
-//    private final PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
     public List<User> getList(Integer page, Integer pageSize) {
 
@@ -34,7 +34,7 @@ public class UserService {
         if (!user.getPasswordHash().matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{6,}$")){
             throw new ValidationException("Пароль слишком простой.");
         }
-//        user.setPasswordHash(passwordEncoder.encode(user.getPasswordHash()));
+        user.setPasswordHash(passwordEncoder.encode(user.getPasswordHash()));
         userDao.insert(user);
         return user;
     }
