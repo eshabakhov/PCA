@@ -33,6 +33,14 @@ public class UserRepository {
                 .fetchInto(User.class);
     }
 
+    public Integer count(Condition condition) {
+        return dslContext
+                .selectCount()
+                .from(USER)
+                .where(condition)
+                .fetchOneInto(Integer.class);
+    }
+
     public User fetchActual(String login) {
         return dslContext
                 .selectFrom(USER)
@@ -49,7 +57,7 @@ public class UserRepository {
                 .execute();
     }
 
-    public void setLock(String login, LocalDateTime now){
+    public void setLock(String login, LocalDateTime now) {
         dslContext
                 .update(USER)
                 .set(USER.IS_LOCKED, true)
