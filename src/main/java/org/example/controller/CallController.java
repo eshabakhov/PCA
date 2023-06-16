@@ -22,8 +22,8 @@ public class CallController {
     @GetMapping(value = "/list")
     public List<CallDto> getList(
             Principal principal,
-            @RequestParam(value = "/page", defaultValue = "1") Integer page,
-            @RequestParam(value = "/pageSize", defaultValue = "10") Integer pageSize) {
+            @RequestParam(value = "page", defaultValue = "1") Integer page,
+            @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
         auditService.audit(principal, "/calls/list", "GET");
         return callService.getList(page, pageSize);
     }

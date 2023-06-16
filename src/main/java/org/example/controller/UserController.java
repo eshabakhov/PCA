@@ -23,8 +23,8 @@ public class UserController {
     @GetMapping(value = "/list")
     public List<User> getList(
             Principal principal,
-            @RequestParam(value = "/page", defaultValue = "1") Integer page,
-            @RequestParam(value = "/pageSize", defaultValue = "10") Integer pageSize) {
+            @RequestParam(value = "page", defaultValue = "1") Integer page,
+            @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
         auditService.audit(principal, "/users/list", "GET");
         return userService.getList(page, pageSize);
     }

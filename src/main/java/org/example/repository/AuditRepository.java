@@ -23,4 +23,12 @@ public class AuditRepository {
                 .offset((page - 1) * pageSize)
                 .fetchInto(Audit.class);
     }
+
+    public Integer count(Condition condition) {
+        return dslContext
+                .selectCount()
+                .from(AUDIT)
+                .where(condition)
+                .fetchOneInto(Integer.class);
+    }
 }

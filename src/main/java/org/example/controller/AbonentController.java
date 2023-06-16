@@ -22,8 +22,8 @@ public class AbonentController {
     @GetMapping(value = "/list")
     public List<Abonent> getList(
             Principal principal,
-            @RequestParam(value = "/page", defaultValue = "1") Integer page,
-            @RequestParam(value = "/pageSize", defaultValue = "10") Integer pageSize) {
+            @RequestParam(value = "page", defaultValue = "1") Integer page,
+            @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
         auditService.audit(principal, "/abonents/list", "GET");
         return abonentService.getList(page, pageSize);
     }

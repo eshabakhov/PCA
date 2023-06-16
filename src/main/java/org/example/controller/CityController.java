@@ -24,8 +24,8 @@ public class CityController {
     @GetMapping(value = "/list")
     public List<City> getList(
             Principal principal,
-            @RequestParam(value = "/page", defaultValue = "1") Integer page,
-            @RequestParam(value = "/pageSize", defaultValue = "10") Integer pageSize) {
+            @RequestParam(value = "page", defaultValue = "1") Integer page,
+            @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
         auditService.audit(principal, "/cities/list", "GET");
         return cityService.getList(page, pageSize);
     }
