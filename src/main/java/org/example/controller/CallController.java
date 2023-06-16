@@ -2,13 +2,13 @@ package org.example.controller;
 
 import lombok.AllArgsConstructor;
 import org.example.dto.CallDto;
+import org.example.dto.ResponseList;
 import org.example.rpovzi.tables.pojos.Call;
 import org.example.service.AuditService;
 import org.example.service.CallService;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.util.List;
 
 @RestController
 @RequestMapping(value = "/calls")
@@ -20,7 +20,7 @@ public class CallController {
     private final AuditService auditService;
 
     @GetMapping(value = "/list")
-    public List<CallDto> getList(
+    public ResponseList<CallDto> getList(
             Principal principal,
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {

@@ -27,14 +27,22 @@ public class CallRepository {
                 .fetchInto(Call.class);
     }
 
+    public Integer count(Condition condition) {
+        return dslContext
+                .selectCount()
+                .from(CALL)
+                .where(condition)
+                .fetchOneInto(Integer.class);
+    }
+
     public List<CallDto> fetchDtos(Condition condition, Integer page, Integer pageSize) {
         List<CallDto> result = new ArrayList<>();
         dslContext
                 .select(CALL.ID, ABONENT.NAME, CITY.NAME, CALL.DATETIME, CALL.MINUTES)
                 .from(CALL)
-                .join(ABONENT)
+                .leftJoin(ABONENT)
                 .on(ABONENT.ID.eq(CALL.ABONENT_ID))
-                .join(CITY)
+                .leftJoin(CITY)
                 .on(CITY.ID.eq(CALL.CITY_ID))
                 .where(condition)
                 .limit(pageSize)
