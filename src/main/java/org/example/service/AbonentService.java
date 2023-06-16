@@ -1,10 +1,12 @@
 package org.example.service;
 
+import org.example.dto.ResponseList;
 import org.example.exception.ValidationException;
 import org.example.rpovzi.tables.daos.AbonentDao;
 import org.example.rpovzi.tables.pojos.Abonent;
 import lombok.AllArgsConstructor;
 import org.example.repository.AbonentRepository;
+import org.example.rpovzi.tables.pojos.Audit;
 import org.jooq.Condition;
 import org.springframework.stereotype.Service;
 
@@ -20,11 +22,17 @@ public class AbonentService {
 
     private final AbonentDao abonentDao;
 
-    public List<Abonent> getList(Integer page, Integer pageSize) {
-
+    public ResponseList<Abonent> getList(Integer page, Integer pageSize) {
+        ResponseList<Abonent> responseList = new ResponseList<>();
         Condition condition = trueCondition();
 
-        return abonentRepository.fetch(condition, page, pageSize);
+        List<Abonent> list =  abonentRepository.fetch(condition, page, pageSize);
+
+        responseList.setList(list);
+        responseList.setTotal(abonentRepository.count(condition));
+        responseList.setCurrentPage(page);
+        responseList.setPageSize(pageSize);
+        return responseList;
     }
 
     public Abonent create(Abonent abonent) throws ValidationException {
