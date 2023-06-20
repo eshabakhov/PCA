@@ -2,6 +2,7 @@ package org.example.dto;
 
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -14,4 +15,5 @@ public class CallDto {
     private LocalDate date;
     private LocalTime time;
     private Integer minutes;
+    private BigDecimal price;
 }

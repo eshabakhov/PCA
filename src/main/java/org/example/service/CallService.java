@@ -6,9 +6,11 @@ import org.example.dto.ResponseList;
 import org.example.repository.CallRepository;
 import org.example.rpovzi.tables.daos.CallDao;
 import org.example.rpovzi.tables.pojos.Call;
+import org.example.rpovzi.tables.pojos.City;
 import org.jooq.Condition;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import static org.jooq.impl.DSL.trueCondition;
@@ -18,6 +20,8 @@ import static org.jooq.impl.DSL.trueCondition;
 public class CallService {
 
     private final CallRepository callRepository;
+
+    private final CityService cityService;
 
     private final CallDao callDao;
 
@@ -35,11 +39,13 @@ public class CallService {
     }
 
     public Call create(Call call) {
+        call.setPrice(calculateCallPrice(call));
         callDao.insert(call);
         return call;
     }
 
     public Call update(Call call) {
+        call.setPrice(calculateCallPrice(call));
         callDao.update(call);
         return call;
     }
@@ -52,4 +58,19 @@ public class CallService {
         return callDao.findById(id);
     }
 
+    public BigDecimal calculateCallPrice(Call call) {
+        BigDecimal price;
+        City city = cityService.get(call.getCityId());
+        if (city == null) {
+            return BigDecimal.ZERO;
+        }
+
+        BigDecimal rate = call.getDatetime().getHour() >= 6 ? city.getDayRate() : city.getNightRate();
+
+        price = rate.multiply(BigDecimal.valueOf(call.getMinutes()));
+        if (call.getMinutes() > city.getDiscountCallMinutes()) {
+            price = price.multiply(BigDecimal.valueOf((100 - city.getDiscountPercent()) / 100.0));
+        }
+        return price;
+    }
 }

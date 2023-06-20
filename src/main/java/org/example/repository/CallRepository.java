@@ -38,7 +38,7 @@ public class CallRepository {
     public List<CallDto> fetchDtos(Condition condition, Integer page, Integer pageSize) {
         List<CallDto> result = new ArrayList<>();
         dslContext
-                .select(CALL.ID, ABONENT.NAME, CITY.NAME, CALL.DATETIME, CALL.MINUTES)
+                .select(CALL.ID, ABONENT.NAME, CITY.NAME, CALL.DATETIME, CALL.MINUTES, CALL.PRICE)
                 .from(CALL)
                 .leftJoin(ABONENT)
                 .on(ABONENT.ID.eq(CALL.ABONENT_ID))
@@ -56,6 +56,7 @@ public class CallRepository {
                     callDto.setDate(obj.getValue(CALL.DATETIME).toLocalDate());
                     callDto.setTime(obj.getValue(CALL.DATETIME).toLocalTime());
                     callDto.setMinutes(obj.getValue(CALL.MINUTES));
+                    callDto.setPrice(obj.getValue(CALL.PRICE));
                     result.add(callDto);
                 });
         return result;
