@@ -2,6 +2,7 @@ package org.example.service;
 
 import lombok.AllArgsConstructor;
 import org.example.dto.UserContextDto;
+import org.example.dto.ResponseList;
 import org.example.exception.ValidationException;
 import org.example.repository.UserRepository;
 import org.example.rpovzi.tables.daos.UserDao;
@@ -24,15 +25,20 @@ public class UserService {
 
     private final PasswordEncoder passwordEncoder;
 
-    public List<User> getList(Integer page, Integer pageSize) {
-
+    public ResponseList<User> getList(Integer page, Integer pageSize) {
+        ResponseList<User> responseList = new ResponseList<>();
         Condition condition = trueCondition();
 
-        return userRepository.fetch(condition, page, pageSize);
+        List<User> list = userRepository.fetch(condition, page, pageSize);
+        responseList.setList(list);
+        responseList.setTotal(userRepository.count(condition));
+        responseList.setCurrentPage(page);
+        responseList.setPageSize(pageSize);
+        return responseList;
     }
 
     public User create(User user) throws ValidationException {
-        if (!user.getPasswordHash().matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{6,}$")){
+        if (!user.getPasswordHash().matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{6,}$")) {
             throw new ValidationException("Пароль слишком простой.");
         }
         user.setPasswordHash(passwordEncoder.encode(user.getPasswordHash()));

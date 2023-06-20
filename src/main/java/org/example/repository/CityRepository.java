@@ -24,4 +24,12 @@ public class CityRepository {
                 .offset((page - 1) * pageSize)
                 .fetchInto(City.class);
     }
+
+    public Integer count(Condition condition) {
+        return dslContext
+                .selectCount()
+                .from(CITY)
+                .where(condition)
+                .fetchOneInto(Integer.class);
+    }
 }

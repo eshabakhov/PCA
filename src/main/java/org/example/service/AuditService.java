@@ -1,6 +1,7 @@
 package org.example.service;
 
 import lombok.AllArgsConstructor;
+import org.example.dto.ResponseList;
 import org.example.repository.AuditRepository;
 import org.example.rpovzi.tables.daos.AuditDao;
 import org.example.rpovzi.tables.pojos.Audit;
@@ -29,11 +30,17 @@ public class AuditService {
         return audit;
     }
 
-    public List<Audit> getList(Integer page, Integer pageSize) {
-
+    public ResponseList<Audit> getList(Integer page, Integer pageSize) {
+        ResponseList<Audit> responseList = new ResponseList<>();
         Condition condition = trueCondition();
 
-        return auditRepository.fetch(condition, page, pageSize);
+        List<Audit> list = auditRepository.fetch(condition, page, pageSize);
+
+        responseList.setList(list);
+        responseList.setTotal(auditRepository.count(condition));
+        responseList.setCurrentPage(page);
+        responseList.setPageSize(pageSize);
+        return responseList;
     }
 
     public void audit(Principal principal, String endpoint, String method) {

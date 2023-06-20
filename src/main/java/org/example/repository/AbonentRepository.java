@@ -1,7 +1,7 @@
 package org.example.repository;
 
-import org.example.rpovzi.tables.pojos.Abonent;
 import lombok.AllArgsConstructor;
+import org.example.rpovzi.tables.pojos.Abonent;
 import org.jooq.Condition;
 import org.jooq.DSLContext;
 import org.springframework.stereotype.Repository;
@@ -23,5 +23,13 @@ public class AbonentRepository {
                 .limit(pageSize)
                 .offset((page - 1) * pageSize)
                 .fetchInto(Abonent.class);
+    }
+
+    public Integer count(Condition condition) {
+        return dslContext
+                .selectCount()
+                .from(ABONENT)
+                .where(condition)
+                .fetchOneInto(Integer.class);
     }
 }

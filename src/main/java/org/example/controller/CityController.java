@@ -1,15 +1,13 @@
 package org.example.controller;
 
 import lombok.AllArgsConstructor;
-import org.example.rpovzi.tables.pojos.Audit;
+import org.example.dto.ResponseList;
 import org.example.rpovzi.tables.pojos.City;
 import org.example.service.AuditService;
 import org.example.service.CityService;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.time.LocalDateTime;
-import java.util.List;
 
 @RestController
 @RequestMapping(value = "/cities")
@@ -22,10 +20,10 @@ public class CityController {
 
 
     @GetMapping(value = "/list")
-    public List<City> getList(
+    public ResponseList<City> getList(
             Principal principal,
-            @RequestParam(value = "/page", defaultValue = "1") Integer page,
-            @RequestParam(value = "/pageSize", defaultValue = "10") Integer pageSize) {
+            @RequestParam(value = "page", defaultValue = "1") Integer page,
+            @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
         auditService.audit(principal, "/cities/list", "GET");
         return cityService.getList(page, pageSize);
     }

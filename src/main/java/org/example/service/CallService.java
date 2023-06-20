@@ -2,13 +2,13 @@ package org.example.service;
 
 import lombok.AllArgsConstructor;
 import org.example.dto.CallDto;
+import org.example.dto.ResponseList;
 import org.example.repository.CallRepository;
 import org.example.rpovzi.tables.daos.CallDao;
 import org.example.rpovzi.tables.pojos.Call;
 import org.jooq.Condition;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.jooq.impl.DSL.trueCondition;
@@ -21,11 +21,17 @@ public class CallService {
 
     private final CallDao callDao;
 
-    public List<CallDto> getList(Integer page, Integer pageSize) {
-
+    public ResponseList<CallDto> getList(Integer page, Integer pageSize) {
+        ResponseList<CallDto> responseList = new ResponseList<>();
         Condition condition = trueCondition();
 
-        return callRepository.fetchDtos(condition, page, pageSize);
+        List<CallDto> list = callRepository.fetchDtos(condition, page, pageSize);
+
+        responseList.setList(list);
+        responseList.setTotal(callRepository.count(condition));
+        responseList.setCurrentPage(page);
+        responseList.setPageSize(pageSize);
+        return responseList;
     }
 
     public Call create(Call call) {
