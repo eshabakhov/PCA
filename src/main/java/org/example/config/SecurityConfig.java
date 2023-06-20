@@ -135,7 +135,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .logout()
                 .logoutSuccessHandler((request, response, authentication) -> {
-                    auditService.create(new Audit(null, authentication.getName(), "/logout", "POST", LocalDateTime.now()));
+                    auditService.create(new Audit(null, "", "/logout", "POST", LocalDateTime.now()));
                     response.setStatus(HttpServletResponse.SC_OK);
                 });
     }
