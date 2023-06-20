@@ -1,6 +1,7 @@
 package org.example.service;
 
 import lombok.AllArgsConstructor;
+import org.example.dto.UserContextDto;
 import org.example.exception.ValidationException;
 import org.example.repository.UserRepository;
 import org.example.rpovzi.tables.daos.UserDao;
@@ -56,4 +57,11 @@ public class UserService {
         return userDao.fetchByLogin(username).stream().findFirst().orElse(null);
     }
 
+    public UserContextDto getContext(String name) {
+        User user = userDao.fetchByLogin(name).get(0);
+        UserContextDto userContextDto = new UserContextDto();
+        userContextDto.setLogin(name);
+        userContextDto.setIsAdmin(user.getIsAdmin());
+        return userContextDto;
+    }
 }
