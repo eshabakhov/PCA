@@ -3,6 +3,7 @@ package org.example.service;
 import lombok.AllArgsConstructor;
 import org.example.dto.UserContextDto;
 import org.example.dto.ResponseList;
+import org.example.dto.UserDto;
 import org.example.exception.ValidationException;
 import org.example.repository.UserRepository;
 import org.example.rpovzi.tables.daos.UserDao;
@@ -25,11 +26,11 @@ public class UserService {
 
     private final PasswordEncoder passwordEncoder;
 
-    public ResponseList<User> getList(Integer page, Integer pageSize) {
-        ResponseList<User> responseList = new ResponseList<>();
+    public ResponseList<UserDto> getList(Integer page, Integer pageSize) {
+        ResponseList<UserDto> responseList = new ResponseList<>();
         Condition condition = trueCondition();
 
-        List<User> list = userRepository.fetch(condition, page, pageSize);
+        List<UserDto> list = userRepository.fetchDtos(condition, page, pageSize);
         responseList.setList(list);
         responseList.setTotal(userRepository.count(condition));
         responseList.setCurrentPage(page);

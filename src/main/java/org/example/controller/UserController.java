@@ -2,6 +2,7 @@ package org.example.controller;
 
 import lombok.AllArgsConstructor;
 import org.example.dto.ResponseList;
+import org.example.dto.UserDto;
 import org.example.rpovzi.tables.pojos.User;
 import org.example.service.AuditService;
 import org.example.service.UserService;
@@ -22,7 +23,7 @@ public class UserController {
 
 
     @GetMapping(value = "/list")
-    public ResponseList<User> getList(
+    public ResponseList<UserDto> getList(
             Principal principal,
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {

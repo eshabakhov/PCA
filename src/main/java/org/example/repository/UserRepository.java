@@ -1,14 +1,13 @@
 package org.example.repository;
 
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.example.dto.UserDto;
 import org.example.rpovzi.tables.pojos.User;
 import org.jooq.Condition;
 import org.jooq.DSLContext;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -31,6 +30,15 @@ public class UserRepository {
                 .limit(pageSize)
                 .offset((page - 1) * pageSize)
                 .fetchInto(User.class);
+    }
+
+    public List<UserDto> fetchDtos(Condition condition, Integer page, Integer pageSize) {
+        return dslContext
+                .selectFrom(USER)
+                .where(condition)
+                .limit(pageSize)
+                .offset((page - 1) * pageSize)
+                .fetchInto(UserDto.class);
     }
 
     public Integer count(Condition condition) {
