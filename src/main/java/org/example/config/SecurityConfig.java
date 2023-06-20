@@ -36,9 +36,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final PasswordEncoder passwordEncoder;
 
-    @Value("${login.redirect}")
-    private String redirect;
-
     @Autowired
     public SecurityConfig(UserRepository userRepository,
                           DataSource dataSource,
