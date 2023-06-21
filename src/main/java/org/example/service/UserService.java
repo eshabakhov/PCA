@@ -13,6 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 import static org.jooq.impl.DSL.trueCondition;
 
@@ -48,6 +49,16 @@ public class UserService {
     }
 
     public User update(User user) {
+        // todo nullpointer
+
+        if (Objects.isNull(user.getPasswordHash())) {
+            User old = userDao.findById(user.getId());
+            user.setPasswordHash(old.getPasswordHash());
+        }
+        else {
+            user.setPasswordHash(passwordEncoder.encode(user.getPasswordHash()));
+        }
+
         userDao.update(user);
         return user;
     }
@@ -57,7 +68,11 @@ public class UserService {
     }
 
     public User get(Long id) {
-        return userDao.findById(id);
+        // todo nullpointer
+        User user = userDao.findById(id);
+        user.setPasswordHash(null);
+        return user;
+
     }
 
     public User getByUsername(String username) {
