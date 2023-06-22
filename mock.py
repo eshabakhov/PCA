@@ -24,7 +24,7 @@ if __name__ == '__main__':
     s.post('http://localhost:8080/api/login', data={'username': 'admin', 'password': 'admin'})
 
     cities = ['Пермь', 'Санкт-Петербург', 'Москва', 'Ижевск', 'Рыбинск', 'Калининград']
-    cities_r = s.get('http://localhost:8080/api/cities/list').json()
+    cities_r = s.get('http://localhost:8080/api/cities/list').json()['list']
     for city in cities:
         for city_r in cities_r:
             if city == city_r['name']:
@@ -33,13 +33,13 @@ if __name__ == '__main__':
             r = s.post('http://localhost:8080/api/cities', json={'nightRate': f'{random.randrange(5, 50)}',
                                                                  'dayRate': f'{random.randrange(5, 50)}',
                                                                  'name': city})
-    cities_r = s.get('http://localhost:8080/api/cities/list').json()
+    cities_r = s.get('http://localhost:8080/api/cities/list').json()['list']
 
     for i in range(5):
         r = s.post('http://localhost:8080/api/abonents', json={'phoneNumber': generate_phone_number(),
                                                                'inn': generate_inn(),
                                                                'address': f'Адрес {random.randrange(0, 1500)}'})
-    abonents_r = s.get('http://localhost:8080/api/abonents/list').json()
+    abonents_r = s.get('http://localhost:8080/api/abonents/list').json()['list']
 
     while True:
         r = s.post('http://localhost:8080/api/calls', json={'abonentId': random.choice(abonents_r)['id'],
